@@ -1,5 +1,5 @@
 context:
-  version: "02.04.52"
+  version: "02.04.53"
 
 package:
   name: dasgoclient
@@ -7,21 +7,21 @@ package:
 
 source:
   url: https://github.com/dmwm/dasgoclient/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: dbf5eafe1276a520cde6c28b60ddd15710bde1a2aa321ade9f866f0cd32319d7
+  sha256: 1d107633640300bfda9e12fdff955917b91b7e39a50780703921e6516ff3c298
   target_directory: src
 
 build:
-  number: 1
+  number: 0
   script:
     - cd src
     - go-licenses save . --save_path ../library_licenses
     - if: unix
-      then: sed -i.bak -e "s,{{VERSION}},v${{ version }},g" main.go && rm main.go.bak
-      else: powershell -Command "$content = [System.IO.File]::ReadAllText('main.go').Replace('{{VERSION}}', 'v${{ version }}'); $utf8 = New-Object System.Text.UTF8Encoding $false; [System.IO.File]::WriteAllText('main.go', $content, $utf8)"
-    - if: unix
-      then: go build -v -o $PREFIX/bin/dasgoclient -ldflags="-s -w"
-      else: go build -v -o %LIBRARY_BIN%\dasgoclient.exe -ldflags="-s"
-
+      then:
+        - sed -i.bak -e "s,{{VERSION}},v${{ version }},g" main.go && rm main.go.bak
+        - go build -v -o $PREFIX/bin/dasgoclient -ldflags="-s -w"
+      else:
+        - powershell -Command "$content = [System.IO.File]::ReadAllText('main.go').Replace('{{VERSION}}', 'v${{ version }}'); $utf8 = New-Object System.Text.UTF8Encoding $false; [System.IO.File]::WriteAllText('main.go', $content, $utf8)"
+        - go build -v -o %LIBRARY_BIN%\dasgoclient.exe -ldflags="-s"
 requirements:
   build:
     - ${{ compiler("go-nocgo") }}
