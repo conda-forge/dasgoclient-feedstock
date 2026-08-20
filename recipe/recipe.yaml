@@ -1,5 +1,5 @@
 context:
-  version: "02.04.53"
+  version: "02.04.54"
 
 package:
   name: dasgoclient
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/dmwm/dasgoclient/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 1d107633640300bfda9e12fdff955917b91b7e39a50780703921e6516ff3c298
+  sha256: d1f60d7bb39dce6ca079cd0d5ea43be6ead8f0c0de97a7e7337fcd3dc072dae6
   target_directory: src
 
 build:
